@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ChessMentorHome from './ChessMentorHome';
-import ChessExplorer from './ChessExplorer';
 import PuzzlePage from './PuzzlePage';
 import PlayWithComputer from './PlayWithComputer';
+import Learn from './Learn';
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<ChessMentorHome />} />
         <Route path="/puzzle" element={<PuzzlePage />} />
         <Route path="/computer" element={<PlayWithComputer />} />
+        <Route path="/learn" element={<Learn />} />
       </Routes>
     </Router>
   );

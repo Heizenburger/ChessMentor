@@ -54,47 +54,9 @@ const PlayWithComputer = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [difficulty, setDifficulty] = useState(2);
   const [gameStatus, setGameStatus] = useState('');
+  const [isCheckmate, setIsCheckmate] = useState(false);
 
-  useEffect(() => {
-    // Check game status after each move
-    if (isGameOver()) {
-      determineGameOutcome();
-    }
-
-    // Make computer move if it's computer's turn after game starts
-    if (gameStarted && 
-        ((playerColor === 'white' && game.turn() === 'b') || 
-         (playerColor === 'black' && game.turn() === 'w'))) {
-      makeComputerMove();
-    }
-  }, [game, playerColor, gameStarted]);
-
-  // Custom game over check
-  const isGameOver = () => {
-    return (
-      game.isCheckmate() || 
-      game.isStalemate() || 
-      game.isThreefoldRepetition() || 
-      game.isInsufficientMaterial() || 
-      game.isDraw()
-    );
-  };
-
-  // Determine game outcome
-  const determineGameOutcome = () => {
-    if (game.isCheckmate()) {
-      setGameStatus(game.turn() === 'w' ? 'Black wins by checkmate!' : 'White wins by checkmate!');
-    } else if (game.isStalemate()) {
-      setGameStatus('Stalemate!');
-    } else if (game.isThreefoldRepetition()) {
-      setGameStatus('Draw by threefold repetition!');
-    } else if (game.isInsufficientMaterial()) {
-      setGameStatus('Draw by insufficient material!');
-    } else if (game.isDraw()) {
-      setGameStatus('Draw!');
-    }
-  };
-
+  // Computer move function
   const makeComputerMove = () => {
     const gameCopy = new Chess(game.fen());
     const possibleMoves = gameCopy.moves();
@@ -109,6 +71,7 @@ const PlayWithComputer = () => {
     }
   };
 
+  // Piece drop function
   const onDrop = (sourceSquare, targetSquare) => {
     const gameCopy = new Chess(game.fen());
 
@@ -138,15 +101,59 @@ const PlayWithComputer = () => {
     }
   };
 
+  useEffect(() => {
+    // Check game status after each move
+    if (isGameOver()) {
+      determineGameOutcome();
+    }
+
+    // Make computer move if it's computer's turn after game starts
+    if (gameStarted && 
+        ((playerColor === 'white' && game.turn() === 'b') || 
+         (playerColor === 'black' && game.turn() === 'w'))) {
+      makeComputerMove();
+    }
+  }, [game, playerColor, gameStarted]);
+
+  // Custom game over check
+  const isGameOver = () => {
+    return (
+      game.isCheckmate() || 
+      game.isStalemate() || 
+      game.isThreefoldRepetition() || 
+      game.isInsufficientMaterial() || 
+      game.isDraw()
+    );
+  };
+
+  // Determine game outcome
+  const determineGameOutcome = () => {
+    if (game.isCheckmate()) {
+      const status = game.turn() === 'w' ? 'Black wins by checkmate!' : 'White wins by checkmate!';
+      setGameStatus(status);
+      setIsCheckmate(true);
+    } else if (game.isStalemate()) {
+      setGameStatus('Stalemate!');
+    } else if (game.isThreefoldRepetition()) {
+      setGameStatus('Draw by threefold repetition!');
+    } else if (game.isInsufficientMaterial()) {
+      setGameStatus('Draw by insufficient material!');
+    } else if (game.isDraw()) {
+      setGameStatus('Draw!');
+    }
+  };
+
   const startGame = () => {
     setGame(new Chess());
     setGameStarted(true);
     setGameStatus('');
+    setIsCheckmate(false);
   };
 
   const resetGame = () => {
     setGameStarted(false);
     setGameStatus('');
+    setIsCheckmate(false);
   };
 
   // Game setup dialog
@@ -198,53 +205,65 @@ const PlayWithComputer = () => {
 
   return (
     <div style={{ 
-      position: 'relative',
-      width: '100vw',
-      height: '100vh',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      overflow: 'hidden'
+      height: '100vh',
+      width: '100vw',
+      padding: '20px',
+      boxSizing: 'border-box'
     }}>
-      {gameStatus && (
-        <div style={{ 
-          marginBottom: '1rem', 
-          textAlign: 'center',
-          width: '100%'
-        }}>
-          <Typography variant="h5" color="error">
-            {gameStatus}
-          </Typography>
-        </div>
+      {/* Checkmate Dialog */}
+      <Dialog 
+        open={isCheckmate}
+        onClose={() => setIsCheckmate(false)}
+      >
+        <DialogTitle>Game Over</DialogTitle>
+        <DialogContent>
+          <Typography variant="h6">{gameStatus}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {
+            setIsCheckmate(false);
+            resetGame();
+          }}>
+            New Game
+          </Button>
+           <Button onClick={() => setIsCheckmate(false)}>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {gameStatus && !isCheckmate && (
+        <Typography variant="h5" color="error" style={{ marginBottom: '1rem' }}>
+          {gameStatus}
+        </Typography>
       )}
+      
       <div style={{ 
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
+        width: '100%', 
+        maxWidth: '600px', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center' 
       }}>
         <Chessboard
           position={game.fen()}
           onPieceDrop={onDrop}
           boardOrientation={playerColor}
-          boardWidth={600}
+          boardWidth={Math.min(600, Math.min(window.innerWidth, window.innerHeight) * 0.8)}
         />
-        <div style={{ 
-          marginTop: '1rem'
-        }}>
-          <Button 
-            variant="contained" 
-            color="secondary" 
-            onClick={resetGame}
-          >
-            New Game
-          </Button>
-        </div>
+        
+        <Button 
+          variant="contained" 
+          color="secondary" 
+          onClick={resetGame}
+          style={{ marginTop: '1rem' }}
+        >
+          New Game
+        </Button>
       </div>
     </div>
   );

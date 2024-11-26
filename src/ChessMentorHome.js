@@ -6,7 +6,7 @@ const ChessMentorHome = () => {
   const options = [
     { title: 'Play Puzzles', icon: Play, color: 'text-blue-500', link: '/puzzle' },
     { title: 'Play with Computer', icon: Cpu, color: 'text-green-500', link: '/computer' },
-    { title: 'Explorer', icon: Book, color: 'text-purple-500', link: '/explorer' },
+    { title: 'Learn', icon: Book, color: 'text-purple-500', link: '/learn' },
   ];
 
   return (
