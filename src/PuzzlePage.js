@@ -1,82 +1,67 @@
+// PuzzlePage.js
 import React, { useState, useEffect } from 'react';
 import Chessboard from 'chessboardjsx';
 import { Chess } from 'chess.js';
 
 const PuzzlePage = () => {
-  // Hardcoded Puzzles with realistic chess positions
   const PUZZLES_800_1000 = [
     {
-      fen: '3r1rk1/pp3pp1/2p5/4p3/4q3/6Q1/PPP2PPP/4R1K1 w - - 0 22',
-      solution: ['Bxf7+', 'Kxf7', 'Ng5+'],
-      rating: 900,
-      themes: ['Sacrifice', 'Checkmate']
+      fen: '6k1/4p2p/1P4p1/2N1b3/1p6/6P1/7P/5K2 b - - 0 31',
+      solution: ['g8f8', 'c5d7', 'f8e8', 'd7e5'],
+      rating: 881,
+      themes: ['crushing endgame fork short']
     },
     {
-      fen: '4r3/p2r1pk1/1p3p1p/2p1n3/2P2P2/1P3NP1/PB3P1P/3R2K1 w - - 0 1',
-      solution: ['Rxd7', 'Rxd7', 'Ng5'],
-      rating: 850,
-      themes: ['Tactical', 'Piece Coordination']
+      fen: 'r3kb1r/1bq3p1/5p2/2R5/1p1nPP2/4B1P1/PP3NB1/5RK1 w kq - 0 25',
+      solution: ['c5c7', 'd4e2'],
+      rating: 912,
+      themes: ['mate mateIn1 middlegame oneMove']
     },
     {
-      fen: '3r2k1/pp3ppp/2p2n2/2b5/2B5/P1P2N2/1P3PPP/3R2K1 w - - 0 1',
-      solution: ['Bxf7+', 'Kh8', 'Ng5'],
-      rating: 950,
-      themes: ['Attack', 'Sacrifice']
+      fen: '2r2rk1/1bp4p/p2p2pq/1p2p2n/1P2Pp2/2PP4/P1Q2PNN/R1B1R2K w - - 2 21',
+      solution: ['h2g4', 'h5g3', 'h1g1', 'h6h1'],
+      rating: 912,
+      themes: ['doubleCheck kingsideAttack mate mateIn2 middlegame short']
     },
     {
-      fen: 'r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 1',
-      solution: ['Bxf6', 'gxf6', 'Qxg4'],
-      rating: 880,
-      themes: ['Tactical', 'Exchange']
+      fen: 'rn1q1rk1/pp2b1pp/4Q1b1/2p5/2B5/2P5/P1PP1PPP/R1B1R1K1 b - - 0 12',
+      solution: ['g8h8', 'e6e7', 'd8e7', 'e1e7'],
+      rating: 912,
+      themes: ['advantage opening short']
     },
-    {
-      fen: '3r2k1/1p3ppp/p3p3/8/P2n4/5N2/1P3PPP/3R2K1 w - - 0 1',
-      solution: ['Rxd4', 'Nxd4', 'Kg2'],
-      rating: 920,
-      themes: ['Material Gain', 'Tactical']
-    }
   ];
 
   const PUZZLES_1000_2500 = [
     {
-      fen: 'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1',
-      solution: ['Bxf7+', 'Kxf7', 'Ng5+'],
-      rating: 1200,
-      themes: ['Sacrifice', 'Checkmate']
+      fen: 'r1bqr3/2p3pp/p1kp4/1Pb1n1N1/Q2p4/8/PP3PPP/RNB1R1K1 b - - 0 16',
+      solution: ['a6b5', 'a4a8', 'c8b7', 'a8d8'],
+      rating: 1456,
+      themes: ['advantage hangingPiece middlegame short']
     },
     {
-      fen: '2kr3r/pppn1ppp/2n5/8/Q7/2P2N2/P3PPPP/R3K2R w KQ - 0 1',
-      solution: ['Nxe5', 'dxe5', 'Qxd7+'],
-      rating: 1500,
-      themes: ['Tactical', 'Piece Coordination']
+      fen: '55r1k/r6p/p2p4/2p2pQ1/1pP5/1P4R1/1q3PPP/4R1K1 b - - 1 27',
+      solution: ['b2f6', 'g5f6', 'f8f6', 'e1e7', 'f6f8', 'e7f8'],
+      rating: 1789,
+      themes: ['endgame long mate mateIn3']
     },
     {
-      fen: '4r1k1/p4ppp/1p2p3/3n4/3P4/2N2P2/PPQ3PP/R3R1K1 w - - 0 1',
-      solution: ['Qxd5', 'exd5', 'Nf4'],
-      rating: 1800,
-      themes: ['Attack', 'Positional']
+      fen: 'r3r1k1/1q4pp/p3P3/6n1/Pp4P1/1P6/1PR1QB1P/5RK1 w - - 1 31',
+      solution: ['f2g3', 'g5h3'],
+      rating: 1789,
+      themes: ['mate mateIn1 middlegame oneMove']
     },
-    {
-      fen: 'r1b1k2r/ppppnppp/2n2q2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1',
-      solution: ['Bxf7+', 'Kxf7', 'Ng5+'],
-      rating: 2000,
-      themes: ['Sacrifice', 'Combination']
-    },
-    {
-      fen: '3r2k1/1p3ppp/p3p3/8/P2n4/5N2/1P3PPP/3R2K1 w - - 0 1',
-      solution: ['Rxd4', 'Nxd4', 'Kg2'],
-      rating: 2200,
-      themes: ['Tactical', 'Material Advantage']
-    }
   ];
 
   const [userRating, setUserRating] = useState(null);
   const [currentPuzzle, setCurrentPuzzle] = useState(null);
-  const [showSolution, setShowSolution] = useState(false);
+  const [showSolution, setShowSolution] = useState( false);
   const [chess] = useState(new Chess());
   const [isLoading, setIsLoading] = useState(false);
+  const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
+  const [initialPosition, setInitialPosition] = useState(null);
+  const [isPuzzleSolved, setIsPuzzleSolved] = useState(false);
 
-  // Modal for rating input
+  // Rating Modal Component
   const RatingModal = () => {
     const [inputRating, setInputRating] = useState('');
 
@@ -111,7 +96,7 @@ const PuzzlePage = () => {
     );
   };
 
-  // Modified fetchPuzzle to use hardcoded puzzles
+  // Fetch Puzzle Function
   const fetchPuzzle = () => {
     setIsLoading(true);
     try {
@@ -122,7 +107,7 @@ const PuzzlePage = () => {
       } else if (userRating >= 1000 && userRating <= 2500) {
         selectedPuzzles = PUZZLES_1000_2500;
       } else {
-        // Fallback to a default puzzle
+        // Fallback puzzle
         const fallbackPuzzle = {
           fen: 'r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1',
           solution: ['Bxf7+', 'Kxf7', 'Ng5+'],
@@ -131,16 +116,42 @@ const PuzzlePage = () => {
         };
         setCurrentPuzzle(fallbackPuzzle);
         chess.load(fallbackPuzzle.fen);
+        setInitialPosition(fallbackPuzzle.fen);
+        setCurrentMoveIndex(0);
         setIsLoading(false);
         return;
       }
 
-      // Select a random puzzle from the appropriate set
+      // Select random puzzle
       const randomPuzzle = selectedPuzzles[Math.floor(Math.random() * selectedPuzzles.length)];
       
+      // Load puzzle and make first computer move
+      chess.load(randomPuzzle.fen);
+      setInitialPosition(randomPuzzle.fen);
       setCurrentPuzzle(randomPuzzle);
-      chess.load(randomPuzzle. fen);
+      setCurrentMoveIndex(0);
       setShowSolution(false);
+
+      // Execute first computer move
+      if (randomPuzzle.solution.length > 0) {
+        const computerMove = randomPuzzle.solution[0];
+        const [fromSquare, toSquare] = computerMove.match(/.{1,2}/g);
+        
+        chess.move({
+          from: fromSquare,
+          to: toSquare,
+          promotion: 'q'
+        });
+
+        // Update board with computer's first move
+        setCurrentPuzzle(prev => ({
+          ...prev,
+          fen: chess.fen()
+        }));
+
+        // Move index to 1 after computer's first move
+        setCurrentMoveIndex(1);
+      }
     } catch (error) {
       console.error('Error selecting puzzle:', error);
     } finally {
@@ -148,79 +159,143 @@ const PuzzlePage = () => {
     }
   };
 
-  // Handle player's move
+  // Handle Player's Move
   const onDrop = ({ sourceSquare, targetSquare }) => {
     try {
-      // Try to make the move
+      if (!currentPuzzle || currentMoveIndex >= currentPuzzle.solution.length) {
+        return false;
+      }
+
+      const expectedMove = currentPuzzle.solution[currentMoveIndex];
       const move = chess.move({
         from: sourceSquare,
         to: targetSquare,
-        promotion: 'q' // always promote to queen for simplicity
+        promotion: 'q'
       });
 
-      // If move is valid, update the board
-      if (move) {
+      const userMoveNotation = `${sourceSquare}${targetSquare}`;
+
+      if (!move || userMoveNotation !== expectedMove) {
+        chess.load(initialPosition);
         setCurrentPuzzle(prev => ({
           ...prev,
-          fen: chess.fen()
+          fen: initialPosition
         }));
+        setCurrentMoveIndex(0);
+        return false;
       }
+
+      setCurrentPuzzle(prev => ({
+        ...prev,
+        fen: chess.fen()
+      }));
+
+      const nextMoveIndex = currentMoveIndex + 1;
+      setCurrentMoveIndex(nextMoveIndex);
+
+      if (nextMoveIndex >= currentPuzzle.solution.length) {
+        setIsPuzzleSolved(true);
+        setTimeout(() => {
+          setIsPuzzleSolved(false);
+          fetchPuzzle();
+        }, 2000);
+        return true;
+      }
+
+      const computerMove = currentPuzzle.solution[nextMoveIndex];
+      const fromSquare = computerMove.slice(0, 2);
+      const toSquare = computerMove.slice(2, 4);
+
+      chess.move({
+        from: fromSquare,
+        to: toSquare,
+        promotion: 'q'
+      });
+
+      setCurrentPuzzle(prev => ({
+        ...prev,
+        fen: chess.fen()
+      }));
+
+      setCurrentMoveIndex(prev => prev + 1);
+
+      return true;
+
     } catch (error) {
-      console.log('Invalid move');
+      console.error('Move error:', error);
+      chess.load(initialPosition);
+      setCurrentPuzzle(prev => ({
+        ...prev,
+        fen: initialPosition
+      }));
+      setCurrentMoveIndex(0);
+      return false;
     }
   };
 
   useEffect(() => {
-    if (userRating) {
-      fetchPuzzle();
+    if (!userRating) {
+      // Render RatingModal
+    } else {
+      fetchPuzzle(); // Fetch puzzle when user rating is set
     }
   }, [userRating]);
 
-  if (!userRating) {
-    return <RatingModal />;
-  }
-
   return (
     <div className="container mx-auto p-4">
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl">Puzzle Challenge</h1>
-        <div>
-          <button 
-            onClick={() => setShowSolution(true)}
-            className="mr-2 bg-yellow-500 text-white px-4 py-2 rounded"
-            disabled={isLoading}
-          >
-            See Solution
-          </button>
-          <button 
-            onClick={fetchPuzzle}
-            className="bg-green-500 text-white px-4 py-2 rounded"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Loading...' : 'Next Puzzle'}
-          </button>
-        </div>
-      </div>
-
-      {currentPuzzle && (
-        <div className="flex flex-col items-center">
-          <div className="w-full max-w-[600px] mb-4">
-            <Chessboard 
-              position={currentPuzzle.fen}
-              width={600}
-              onDrop={onDrop}
-              orientation="white"
-            />
+      {!userRating && <RatingModal />}
+      
+      {userRating && (
+        <>
+          <div className="flex justify-between mb-4">
+            <h1 className="text-2xl">Puzzle Challenge</h1>
+            <div>
+              <button 
+                onClick={() => setShowSolution(true)}
+                className="mr-2 bg-yellow-500 text-white px-4 py-2 rounded"
+                disabled={isLoading}
+              >
+                See Solution
+              </button>
+              <button 
+                onClick={fetchPuzzle}
+                className="bg-green-500 text-white px-4 py-2 rounded"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Loading...' : ' Next Puzzle'}
+              </button>
+            </div>
           </div>
-          {showSolution && (
-            <div className="p-4 bg-gray-100 rounded max-w-[600px] w-full">
-              <h3 className="font-bold">Puzzle Details</h3>
-              <p><strong>Rating:</strong> {currentPuzzle.rating}</p>
-              <p><strong>Themes:</strong> {currentPuzzle.themes.join(', ')}</p>
-              <p><strong>Solution:</strong> {currentPuzzle.solution.join(', ')}</p>
+
+          {currentPuzzle && (
+            <div className="flex flex-col items-center">
+              <div className="w-full max-w-[600px] mb-4">
+                <Chessboard 
+                  position={currentPuzzle.fen}
+                  width={600}
+                  onDrop={onDrop}
+                  orientation="white"
+                />
+              </div>
+              {showSolution && (
+                <div className="p-4 bg-gray-100 rounded max-w-[600px] w-full">
+                  <h3 className="font-bold">Puzzle Details</h3>
+                  <p><strong>Rating:</strong> {currentPuzzle.rating}</p>
+                  <p><strong>Themes:</strong> {currentPuzzle.themes.join(', ')}</p>
+                  <p><strong>Solution:</strong> {currentPuzzle.solution.join(', ')}</p>
+                </div>
+              )}
+              {isPuzzleSolved && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                  <div className="bg-white p-8 rounded-lg shadow-xl">
+                    <h2 className="text-2xl mb-4">Puzzle Solved!</h2>
+                    <p>Loading next puzzle...</p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

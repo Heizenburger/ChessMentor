@@ -28,13 +28,49 @@ const learnCategories = [
     id: 'endgame',
     title: 'Endgame',
     description: 'Master critical endgame techniques and strategies',
-    content: null // Placeholder for future expansion
+    content: {
+      title: 'Chess Endgame Fundamentals',
+      sections: [
+        {
+          heading: 'What is an Endgame?',
+          text: 'The endgame is the final stage of a chess game where few pieces remain on the board. It requires precise calculation, king activity, and understanding of key strategic principles.'
+        },
+        {
+          heading: 'Key Endgame Principles',
+          text: '1. Activate the King\n- In the endgame, the king becomes a strong piece\n- Move the king towards the center\n- Use the king to support passed pawns\n- Control key squares\n\n2. Pawn Promotion Strategy\n- Create and protect passed pawns\n- Use king to support pawn advancement\n- Block opponent\'s pawns\n\n3. Critical Endgame Positions\n- King and Pawn vs King\n- Rook Endgames\n- Minor Piece Endgames'
+        },
+        {
+          heading: 'Theoretical Concepts',
+          text: 'Important Endgame Theories:\n- Opposition Theory\n- Triangulation\n- Zugzwang\n- Square of the Pawn\n- Lucena and Philidor Positions\n\nThese concepts help determine winning and drawing chances in complex endgame scenarios.'
+        }
+      ]
+    }
   },
   {
     id: 'tactics',
     title: 'Tactics',
     description: 'Learn chess tactics and strategic maneuvers',
-    content: null // Placeholder for future expansion
+    content: {
+        title: 'Chess Tactical Mastery',
+        sections: [
+          {
+            heading: 'What are Chess Tactics?',
+            text: 'Tactics are short-term calculated sequences that exploit specific weaknesses in the opponent\'s position. They involve precise combinations to gain material or positional advantage.'
+          },
+          {
+            heading: 'Core Tactical Motifs',
+            text: 'Key Tactical Themes:\n1. Fork\n- Attacking two pieces simultaneously\n- Can be performed by knights, pawns, or other pieces\n\n2. Pin\n- Restricting piece movement\n- Absolute pin (can\'t move without exposing king)\n- Relative pin (can move but loses material)\n\n3. Skewer\n- Similar to pin, but the more valuable piece is in front\n- Forces piece to move, exposing another piece'
+          },
+          {
+            heading: 'Advanced Tactical Concepts',
+            text: 'Complex Tactical Strategies:\n- Discovered Attack\n- Double Attack\n- Deflection\n- Interference\n- Overloading\n\nMastering these concepts requires pattern recognition, calculation, and strategic thinking.'
+          },
+          {
+            heading: 'Tactical Calculation Principles',
+            text: 'Improving Tactical Vision:\n1. Always look for tactical opportunities\n2. Analyze piece relationships\n3. Consider all possible moves\n4. Practice pattern recognition\n5. Study classic tactical games\n\nTactics are the foundation of chess strategy and decisive game-changing moments.'
+          }
+        ]
+      }
   }
 ];
 
