@@ -19,7 +19,7 @@ const PuzzlePage = () => {
     },
     {
       fen: '2r2rk1/1bp4p/p2p2pq/1p2p2n/1P2Pp2/2PP4/P1Q2PNN/R1B1R2K w - - 2 21',
-      solution: ['h2g4', 'h5g3', 'h1g1', 'h6h1'],
+      solution: ['h5g3', 'h1g1', 'h6h1'],
       rating: 912,
       themes: ['doubleCheck kingsideAttack mate mateIn2 middlegame short']
     },
