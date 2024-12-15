@@ -18,4 +18,11 @@ function App() {
   );
 }
 
+/**
+ * Chess Mentor Project
+ * Created by [Aman Adil]
+ * © [2024] All Rights Reserved
+ * Licensed under MIT License
+ */
+
 export default App;
