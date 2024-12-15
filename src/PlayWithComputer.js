@@ -202,6 +202,12 @@ const PlayWithComputer = () => {
       </Dialog>
     );
   }
+  /**
+ * Chess Mentor Project
+ * Created by [Aman Adil]
+ * © [2024] All Rights Reserved
+ * Licensed under MIT License
+ */
 
   return (
     <div style={{ 
